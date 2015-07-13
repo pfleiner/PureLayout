@@ -377,6 +377,16 @@ static NSMutableArray *_al_globalConstraintIdentifiers = nil;
 }
 
 /**
+ Pins the edges of the view to the edges of its superview.
+ 
+ @return An array of constraints added.
+ */
+- (NSArray *)autoPinEdgesToSuperviewEdges
+{
+    return [self autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
+}
+
+/**
  Pins the edges of the view to the edges of its superview with the given edge insets.
  The insets.left corresponds to a leading edge constraint, and insets.right corresponds to a trailing edge constraint.
  
@@ -416,6 +426,40 @@ static NSMutableArray *_al_globalConstraintIdentifiers = nil;
     }
     if (edge != ALEdgeTrailing && edge != ALEdgeRight) {
         [constraints addObject:[self autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:insets.right]];
+    }
+    return constraints;
+}
+
+/**
+ Pins the edges of the view to the edges of its superview on the given axis.
+ ALAxisVertical will pin to the top and bottom edges, and ALAxisHorizontal will pin to the leading and trailing.
+ 
+ @param axis The axis on which the view's edges will be constrained to its superview's edges.
+ @return An array of constraints added.
+ */
+- (NSArray *)autoPinEdgesToSuperviewEdgesOnAxis:(ALAxis)axis
+{
+    return [self autoPinEdgesToSuperviewEdgesOnAxis:axis withInset:0.0];
+}
+
+/**
+ Pins the edges of the view to the edges of its superview on the given axis with equal insets.
+ ALAxisVertical will pin to the top and bottom edges, and ALAxisHorizontal will pin to the leading and trailing.
+ 
+ @param axis The axis on which the view's edges will be constrained to its superview's edges.
+ @param inset The amount to inset the view's edges from its superview's edges.
+ @return An array of constraints added.
+ */
+- (NSArray *)autoPinEdgesToSuperviewEdgesOnAxis:(ALAxis)axis withInset:(CGFloat)inset
+{
+    NSMutableArray *constraints = [NSMutableArray new];
+    if (axis == ALAxisVertical) {
+        [constraints addObject:[self autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:inset]];
+        [constraints addObject:[self autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:inset]];
+    }
+    else {
+        [constraints addObject:[self autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:inset]];
+        [constraints addObject:[self autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:inset]];
     }
     return constraints;
 }
@@ -491,6 +535,27 @@ static NSMutableArray *_al_globalConstraintIdentifiers = nil;
         [constraints addObject:[self autoPinEdgeToSuperviewMargin:ALEdgeBottom]];
     }
     if (edge != ALEdgeTrailing && edge != ALEdgeRight) {
+        [constraints addObject:[self autoPinEdgeToSuperviewMargin:ALEdgeTrailing]];
+    }
+    return constraints;
+}
+
+/**
+ Pins the edges of the view to the margins of its superview on the given axis.
+ ALAxisVertical will pin to the top and bottom margins, and ALAxisHorizontal will pin to the leading and trailing.
+ 
+ @param axis The axis on which the view's margings will be constrained to its superview's margins.
+ @return An array of constraints added.
+ */
+- (NSArray *)autoPinEdgesToSuperviewMarginsOnAxis:(ALAxis)axis
+{
+    NSMutableArray *constraints = [NSMutableArray new];
+    if (axis == ALAxisVertical) {
+        [constraints addObject:[self autoPinEdgeToSuperviewMargin:ALEdgeTop]];
+        [constraints addObject:[self autoPinEdgeToSuperviewMargin:ALEdgeBottom]];
+    }
+    else {
+        [constraints addObject:[self autoPinEdgeToSuperviewMargin:ALEdgeLeading]];
         [constraints addObject:[self autoPinEdgeToSuperviewMargin:ALEdgeTrailing]];
     }
     return constraints;

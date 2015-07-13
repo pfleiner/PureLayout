@@ -104,11 +104,20 @@
 /** Pins the given edge of the view to the same edge of its superview with an inset as a maximum or minimum. */
 - (NSLayoutConstraint *)autoPinEdgeToSuperviewEdge:(ALEdge)edge withInset:(CGFloat)inset relation:(NSLayoutRelation)relation;
 
+/** Pins the edges of the view to the edges of its superview. */
+- (NSArray *)autoPinEdgesToSuperviewEdges;
+
 /** Pins the edges of the view to the edges of its superview with the given edge insets. */
 - (NSArray *)autoPinEdgesToSuperviewEdgesWithInsets:(ALEdgeInsets)insets;
 
 /** Pins 3 of the 4 edges of the view to the edges of its superview with the given edge insets, excluding one edge. */
 - (NSArray *)autoPinEdgesToSuperviewEdgesWithInsets:(ALEdgeInsets)insets excludingEdge:(ALEdge)edge;
+
+/** Pins the edges of the view to the edges of its superview on the given axis. */
+- (NSArray *)autoPinEdgesToSuperviewEdgesOnAxis:(ALAxis)axis;
+
+/** Pins the edges of the view to the edges of its superview on the given axis with equal insets. */
+- (NSArray *)autoPinEdgesToSuperviewEdgesOnAxis:(ALAxis)axis withInset:(CGFloat)inset;
 
 #if __PureLayout_MinBaseSDK_iOS_8_0
 
@@ -123,6 +132,9 @@
 
 /** Pins 3 of the 4 edges of the view to the margins of its superview excluding one edge. Available in iOS 8.0 and later. */
 - (NSArray *)autoPinEdgesToSuperviewMarginsExcludingEdge:(ALEdge)edge;
+
+/** Pins the edges of the view to the margins of its superview on the given axis. Available in iOS 8.0 and later. */
+- (NSArray *)autoPinEdgesToSuperviewMarginsOnAxis:(ALAxis)axis;
 
 #endif /* __PureLayout_MinBaseSDK_iOS_8_0 */
 
